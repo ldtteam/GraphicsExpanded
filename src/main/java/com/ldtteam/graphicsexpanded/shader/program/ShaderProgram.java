@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
+import com.ldtteam.graphicsexpanded.shader.ShaderManager;
 import com.ldtteam.graphicsexpanded.shader.uniform.Uniform;
 import com.ldtteam.graphicsexpanded.util.log.Log;
 import net.minecraft.client.Minecraft;
@@ -53,6 +54,8 @@ public class ShaderProgram {
             GL20.glDetachShader(programID, fragmentShaderID);
             GL20.glDeleteShader(fragmentShaderID);
         }
+
+        ShaderManager.getInstance().registerShader(this);
 	}
 	
 	protected void storeAllUniformLocations(final Uniform... uniforms){
@@ -70,12 +73,12 @@ public class ShaderProgram {
 		GL20.glUseProgram(0);
 	}
 
-	public void delete() {
-		stop();
-		GL20.glDeleteProgram(programID);
-	}
+    public int getProgramID()
+    {
+        return programID;
+    }
 
-	private void bindAttributes(final String[] inVariables){
+    private void bindAttributes(final String[] inVariables){
 		for(int i=0;i<inVariables.length;i++){
 			GL20.glBindAttribLocation(programID, i, inVariables[i]);
 		}
