@@ -1,33 +1,17 @@
-[![CLA assistant](https://cla-assistant.io/readme/badge/copy_paste/copy_paste)](https://cla-assistant.io/copy_paste/copy_paste)
-[![Build Status](https://teamcity.copy_paste.com/app/rest/builds/buildType:copy_paste_Alpha/statusIcon)](http://teamcity.copy_paste.com/)
-[![Quality Gate](https://sonar.copy_paste.com/api/badges/gate?key=copy_paste%3Aversion%2F1.11&blinking=true)](https://sonar.copy_paste.com/overview?id=copy_paste%3Aversion%2F1.11)
-[![Comment Lines](https://sonar.copy_paste.com/api/badges/measure?key=copy_paste%3Aversion%2F1.11&blinking=true&metric=comment_lines_density)](https://sonar.copy_paste.com/overview?id=copy_paste%3Aversion%2F1.11)
-[![Lines of Code](https://sonar.copy_paste.com/api/badges/measure?key=copy_paste%3Aversion%2F1.11&blinking=true&metric=ncloc)](https://sonar.copy_paste.com/overview?id=copy_paste%3Aversion%2F1.11)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3f8479027286436bbb6add73d309e054)](https://www.codacy.com/app/copy_paste/copy_paste?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=copy_paste/copy_paste&amp;utm_campaign=Badge_Grade)
-[![Stories in Ready](https://badge.waffle.io/copy_paste/copy_paste.png?label=help%20wanted&title=Help%20Wanted)](http://waffle.io/copy_paste/copy_paste)
-
-
-
-![alt tag](resources/copy_paste.png)
-
+## Graphics Expanded
 ### About the mod ###
 
-   **copy_paste** is a mod for the famous game *Minecraft* from Mojang. This Mod allows the player to save structures with a scan tool, manipulate regions with functions as remove, replace and delete entities.
-   As well as paste these structures in the world. Additionally this mod adds a bunch of decorative blocks as shingles, timberframes and paperwalls.
+   **Graphics Expanded** is a library mod for the famous game *Minecraft* from Mojang. 
+   It allows LDTTeam mods to support shading, VBO and VAO on your GPU.
+   Minimal version of OpenGL required: 3.0
    
-##### Website:
-https://www.copy_paste.com/
+   For normal Minecraft players this library does not much,
+   however for us as coders it allows us to make your experience better and fancier.
+   
+### Website:
+https://github.com/ldtteam/GraphicsExpanded
 
-
-For Users
---
-
-
-Compiling copy_paste
-----
-
-IMPORTANT: Please report any issues you have, there might be some problems with the documentation! Also make sure you know EXACTLY what you're doing! It's not any of our faults if your OS crashes, becomes corrupted, etc.
-
+### Compiling:
 #### Setup Java
 The Java JDK is used to compile copy_paste
 
@@ -49,7 +33,7 @@ The Java JDK is used to compile copy_paste
 3. Open up your command line and run `javac`.  If it spews out a bunch of possible options and the usage, then you're good to go.  If not, either try the steps again.
 
 #### Setup Gradle (Optional)
-Gradle is used to execute the various build tasks when compiling CopyPaste
+Gradle is used to execute the various build tasks when compiling GraphicsExpanded
 
 1. Download and install Gradle.
 	* [Windows/Mac download link](http://www.gradle.org/downloads).  You only need the binaries, but choose whatever flavor you want.
@@ -67,32 +51,32 @@ Gradle is used to execute the various build tasks when compiling CopyPaste
 3. Open up your command line and run `gradle`.  If it says "Welcome to Gradle [version].", then you're good to go.  If not, either try the steps again.
 
 #### Setup Git
-Git is used to clone CopyPaste and update your local copy.
+Git is used to clone GraphicsExpanded and update your local copy.
 
 1. Download and install Git [here](http://git-scm.com/download/).
 2. *Optional*: Download and install a Git GUI client, such as SourceTree, Github for Windows/Mac, SmartGitHg, TortoiseGit, etc.  A nice list is available [here](http://git-scm.com/downloads/guis).
 
-#### Setup CopyPaste
+#### Setup GraphicsExpanded
 This section assumes that you're using the command-line version of Git.
 
 1. Open up your command line.
-2. Navigate to a place where you want to download CopyPaste source (eg `C:\Github\CopyPaste\`) by executing `cd [folder location]`.  This location is known as `basefolder` from now on.
-3. Execute `git clone https://github.com/CopyPaste/CopyPaste.git`.  This will download CopyPaste' source into `basefolder`.
+2. Navigate to a place where you want to download GraphicsExpanded source (eg `C:\Github\GraphicsExpanded\`) by executing `cd [folder location]`.  This location is known as `basefolder` from now on.
+3. Execute `git clone https://github.com/ldtteam/GraphicsExpanded.git`.  This will download GraphicsExpanded' source into `basefolder`.
 4. Right now, you should have a directory that looks something like:
 
 ***
     basefolder
-	\-CopyPaste
-		\-CopyPaste' files (should have `build.gradle`)
+	\-GraphicsExpanded
+		\-GraphicsExpanded' files (should have `build.gradle`)
 ***
 
-#### Compile CopyPaste
-1. Execute `gradlew setupDecompWorkspace`. This sets up Forge and downloads the necessary libraries to build CopyPaste.  This might take some time, be patient.
+#### Compile GraphicsExpanded
+1. Execute `gradlew setupDecompWorkspace`. This sets up Forge and downloads the necessary libraries to build GraphicsExpanded.  This might take some time, be patient.
     * You will generally only have to do this once until the Forge version in `build.properties` changes.
 2. Execute `gradlew build`. If you did everything right, `BUILD SUCCESSFUL` will be displayed after it finishes.  This should be relatively quick.
     * If you see `BUILD FAILED`, check the error output (it should be right around `BUILD FAILED`), fix everything (if possible), and try again.
-3. Go to `basefolder\CopyPaste\build\libs`.
-    *  You should see a `.jar` file named `CopyPaste-universal--0.0.#.jar`, where # is the `build_number` value in `build.properties`.
+3. Go to `basefolder\GraphicsExpanded\build\libs`.
+    *  You should see a `.jar` file named `GraphicsExpanded-universal--0.0.#.jar`, where # is the `build_number` value in `build.properties`.
 4. Copy the jar into your Minecraft mods folder, and you are done! (~/.minecraft/mods on Linux)
 5. Alternatively, you can also run `./gradlew runClient` to start Minecraft with this jar.
 
@@ -119,10 +103,10 @@ So you found a bug in our code?  Think you can make it more efficient?  Want to 
 6. Click `Create pull request`, and wait for feedback!
 
 #### Creating an Issue
-CopyPaste crashes every time?  Have a suggestion?  Found a bug?  Create an issue now!
+GraphicsExpanded crashes every time?  Have a suggestion?  Found a bug?  Create an issue now!
 
 1. Make sure your issue hasn't already been answered or fixed.  Also think about whether your issue is a valid one before submitting it.
-2. Go to [the issues page](https://github.com/CopyPaste/CopyPaste/issues).
+2. Go to [the issues page](https://github.com/ldtteam/GraphicsExpanded/issues).
 3. Click `New Issue`
 4. Fill in the form:
     * `Title`: Short summary of your issue
@@ -132,13 +116,11 @@ CopyPaste crashes every time?  Have a suggestion?  Found a bug?  Create an issue
     
 5. Click `Submit New Issue`, and wait for feedback!
 
-~~NOTE: A video explaining how to is [here](http://youtu.be/2SscjHmLvss).~~
-
 For Developers
 --
 
 PR's (pull requests) are required to get code onto the develop and master branches.
 
 To do this, the easiest way is to download [sourcetree](http://www.sourcetreeapp.com/) or [gitkraken](https://www.gitkraken.com/). Install it, and add a repository (either clone, or select working directory)
-Then, click on branch, and create a new one. You can push to your own branch! Make sure your branch is selected, before you push! [Example](http://gyazo.com/4b453a55a8baf59f573bb1c4636a5ca2) So it should be big black. Once you are satisfied, go to [github](https://github.com/CopyPaste/CopyPaste/compare), and create a pull request.
+Then, click on branch, and create a new one. You can push to your own branch! Make sure your branch is selected, before you push! [Example](http://gyazo.com/4b453a55a8baf59f573bb1c4636a5ca2) So it should be big black. Once you are satisfied, go to [github](https://github.com/ldtteam/GraphicsExpanded/compare), and create a pull request.
 
