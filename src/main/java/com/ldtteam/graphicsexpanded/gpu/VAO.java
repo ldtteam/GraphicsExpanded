@@ -1,5 +1,7 @@
 package com.ldtteam.graphicsexpanded.gpu;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -11,6 +13,7 @@ import java.util.Collection;
 /**
  * Represents a OpenGL version 3.0 memory array on the GPU.
  */
+@SideOnly(Side.CLIENT)
 public class VAO
 {
     private static final int             BYTES_PER_FLOAT = 4;
@@ -63,8 +66,13 @@ public class VAO
         unbind();
     }
 
+    /**
+     * Creates a index buffer in memory.
+     *
+     * @param indices The indices to store in memory.
+     */
     public void createIndexBuffer(final int[] indices){
-        this.indexVbo = GPUManager.getInstance().createVBO(GL15.GL_ELEMENT_ARRAY_BUFFER);
+        this.indexVbo = GPUMemoryManager.getInstance().createVBO(GL15.GL_ELEMENT_ARRAY_BUFFER);
         indexVbo.bind();
         indexVbo.storeData(indices);
         this.indexCount = indices.length;
@@ -79,7 +87,7 @@ public class VAO
      * @param attrSize The size of a float in memory (usually 4 bytes -> so 4)
      */
     public void createAttribute(final int attribute, final float[] data, final int attrSize){
-        final VBO dataVbo = GPUManager.getInstance().createVBO(GL15.GL_ARRAY_BUFFER);
+        final VBO dataVbo = GPUMemoryManager.getInstance().createVBO(GL15.GL_ARRAY_BUFFER);
         dataVbo.bind();
         dataVbo.storeData(data);
         GL20.glVertexAttribPointer(attribute, attrSize, GL11.GL_FLOAT, false, attrSize * BYTES_PER_FLOAT, 0);
@@ -96,7 +104,7 @@ public class VAO
      * @param attrSize The size of a int in memory (usually 4 bytes -> so 4)
      */
     public void createIntAttribute(final int attribute, final int[] data, int attrSize){
-        final VBO dataVbo = GPUManager.getInstance().createVBO(GL15.GL_ARRAY_BUFFER);
+        final VBO dataVbo = GPUMemoryManager.getInstance().createVBO(GL15.GL_ARRAY_BUFFER);
         dataVbo.bind();
         dataVbo.storeData(data);
         GL30.glVertexAttribIPointer(attribute, attrSize, GL11.GL_INT, attrSize * BYTES_PER_INT, 0);

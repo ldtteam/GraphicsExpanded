@@ -1,6 +1,6 @@
 package com.ldtteam.graphicsexpanded.gpu;
 
-import com.ldtteam.animatrix.util.Log;
+import com.ldtteam.graphicsexpanded.util.log.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,11 +15,11 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 @SideOnly(Side.CLIENT)
-public class GPUManager
+public final class GPUMemoryManager
 {
-    private static GPUManager ourInstance = new GPUManager();
+    private static GPUMemoryManager ourInstance = new GPUMemoryManager();
 
-    public static GPUManager getInstance()
+    public static GPUMemoryManager getInstance()
     {
         return ourInstance;
     }
@@ -27,13 +27,13 @@ public class GPUManager
     private final ConcurrentMap<WeakReference<VBO>, Integer> VBOs = new ConcurrentHashMap();
     private final ConcurrentMap<WeakReference<VAO>, Integer> VAOs = new ConcurrentHashMap();
 
-    private GPUManager()
+    private GPUMemoryManager()
     {
     }
 
     public void initialize()
     {
-
+        Minecraft.getMinecraft().addScheduledTask(new ClearingRunnable(this));
     }
 
     /**
@@ -70,9 +70,9 @@ public class GPUManager
     private static final class ClearingRunnable implements Runnable
     {
 
-        private final GPUManager managerToHandle;
+        private final GPUMemoryManager managerToHandle;
 
-        public ClearingRunnable(final GPUManager managerToHandle) {this.managerToHandle = managerToHandle;}
+        public ClearingRunnable(final GPUMemoryManager managerToHandle) {this.managerToHandle = managerToHandle;}
 
         @Override
         public void run()
@@ -87,12 +87,13 @@ public class GPUManager
                 GL15.glDeleteBuffers(weakReferenceIntegerEntry.getValue());
             });
 
-
             removedVAOs.forEach(weakReferenceIntegerEntry -> {
                 managerToHandle.VAOs.remove(weakReferenceIntegerEntry.getKey());
                 GL30.glDeleteVertexArrays(weakReferenceIntegerEntry.getValue());
             });
 
+            //Reschedule clearing task.
+            //We will have to wait a minimal amount of time.
             final Thread rescheduleThread = new Thread(() -> {
                 try
                 {
