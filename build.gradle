@@ -95,9 +95,6 @@ curseforge {
             changelog = file('build/changelog.md')
             changelogType = 'markdown'
             releaseType = System.getenv().CURSERELEASETYPE
-
-            addArtifact deobfJar
-            addArtifact apiJar
         }
     }
     else
