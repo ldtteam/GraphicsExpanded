@@ -1,5 +1,7 @@
 package com.ldtteam.graphicsexpanded.gpu;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
 
@@ -9,6 +11,7 @@ import java.nio.IntBuffer;
 /**
  * Represents a OpenGL version 1.5 memory buffer on the GPU.
  */
+@OnlyIn(Dist.CLIENT)
 public final class VBO
 {
     private final int vboId;

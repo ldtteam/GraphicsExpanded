@@ -3,8 +3,8 @@ package com.ldtteam.graphicsexpanded.shader;
 import com.ldtteam.graphicsexpanded.shader.program.ShaderProgram;
 import com.ldtteam.graphicsexpanded.util.log.Log;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL20;
 
 import java.lang.ref.WeakReference;
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public final class ShaderManager
 {
 
@@ -33,7 +33,7 @@ public final class ShaderManager
 
     public void initialize()
     {
-        Minecraft.getMinecraft().addScheduledTask(new ClearingRunnable(this));
+        Minecraft.getInstance().execute(new ClearingRunnable(this));
     }
 
     public void registerShader(final ShaderProgram shaderProgram)
@@ -77,7 +77,7 @@ public final class ShaderManager
 
                 try
                 {
-                    Minecraft.getMinecraft().addScheduledTask(this);
+                    Minecraft.getInstance().execute(this);
                 }
                 catch (final Exception ex)
                 {

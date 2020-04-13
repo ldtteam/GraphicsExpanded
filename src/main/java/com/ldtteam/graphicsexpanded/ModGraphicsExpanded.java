@@ -1,29 +1,30 @@
 package com.ldtteam.graphicsexpanded;
 
 import com.ldtteam.graphicsexpanded.gpu.GPUMemoryManager;
+import com.ldtteam.graphicsexpanded.shader.ShaderManager;
 import com.ldtteam.graphicsexpanded.util.constant.Constants;
 import com.ldtteam.graphicsexpanded.util.log.Log;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.apache.logging.log4j.LogManager;
 
 @Mod(
-  modid = Constants.General.MOD_ID,
-  name = Constants.General.MOD_NAME,
-  version = Constants.General.MOD_VERSION,
-  clientSideOnly = true
+  Constants.General.MOD_ID
 )
-@SideOnly(Side.CLIENT)
 public class ModGraphicsExpanded
 {
 
-    @Mod.EventHandler
-    public void onFMLPreInitialization(final FMLPreInitializationEvent event)
-    {
-        Log.setLogger(event.getModLog());
+    public ModGraphicsExpanded() {
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(this::onClientInit));
+    }
 
+    public void onClientInit(final FMLClientSetupEvent setupEvent) {
+        Log.setLogger(LogManager.getLogger());
         Log.getLogger().info("Starting GPU Memory manager.");
-        GPUMemoryManager.getInstance().initialize();
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> GPUMemoryManager.getInstance().initialize());
+        Log.getLogger().info("Starting Shader manager.");
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> ShaderManager.getInstance().initialize());
     }
 }

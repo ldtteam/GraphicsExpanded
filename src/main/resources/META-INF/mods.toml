@@ -1,0 +1,27 @@
+modLoader="javafml" #mandatory
+loaderVersion="[31,)" #mandatory (28 is current forge version)
+issueTrackerURL="https://github.com/ldtteam/Structurize/issues/new" #optional
+[[mods]] #mandatory
+modId="graphicsexpanded" #mandatory
+version="${file.jarVersion}" #mandatory
+displayName="GraphicsExpanded" #mandatory
+credits="Every coffee anyone has drank!" #optional
+authors="LDT Team" #optional
+description='''
+Graphics Expanded is a library mod for the famous game Minecraft from Mojang.
+It allows LDTTeam mods to support shading, VBO and VAO on your GPU. Minimal version of OpenGL required: 3.0
+
+For normal Minecraft players this library does not much, however for us as coders it allows us to make your experience better and fancier.
+'''
+[[dependencies.graphicsexpanded]] #optional
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="[31.1.0,)" #mandatory
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.graphicsexpanded]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="BOTH"

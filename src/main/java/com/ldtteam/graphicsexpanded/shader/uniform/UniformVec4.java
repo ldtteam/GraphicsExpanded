@@ -1,7 +1,7 @@
 package com.ldtteam.graphicsexpanded.shader.uniform;
 
+import net.minecraft.client.renderer.Vector4f;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.util.vector.Vector4f;
 
 public class UniformVec4 extends Uniform {
 
@@ -10,7 +10,7 @@ public class UniformVec4 extends Uniform {
 	}
 
 	public void loadVec4(final Vector4f vector) {
-		loadVec4(vector.x, vector.y, vector.z, vector.w);
+		loadVec4(vector.getX(), vector.getY(), vector.getZ(), vector.getW());
 	}
 
 	public void loadVec4(final float x, final float y, final float z, final float w) {

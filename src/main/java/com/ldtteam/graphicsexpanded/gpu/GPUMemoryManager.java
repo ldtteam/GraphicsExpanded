@@ -2,8 +2,8 @@ package com.ldtteam.graphicsexpanded.gpu;
 
 import com.ldtteam.graphicsexpanded.util.log.Log;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public final class GPUMemoryManager
 {
     private static GPUMemoryManager ourInstance = new GPUMemoryManager();
@@ -33,7 +33,7 @@ public final class GPUMemoryManager
 
     public void initialize()
     {
-        Minecraft.getMinecraft().addScheduledTask(new ClearingRunnable(this));
+        Minecraft.getInstance().execute(new ClearingRunnable(this));
     }
 
     /**
@@ -105,7 +105,7 @@ public final class GPUMemoryManager
 
                 try
                 {
-                    Minecraft.getMinecraft().addScheduledTask(this);
+                    Minecraft.getInstance().execute(this);
                 }
                 catch (final Exception ex)
                 {

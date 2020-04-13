@@ -1,7 +1,7 @@
 package com.ldtteam.graphicsexpanded.gpu;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -13,7 +13,7 @@ import java.util.Collection;
 /**
  * Represents a OpenGL version 3.0 memory array on the GPU.
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class VAO
 {
     private static final int             BYTES_PER_FLOAT = 4;

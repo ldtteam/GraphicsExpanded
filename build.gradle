@@ -1,86 +1,200 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        mavenCentral()
+        maven { url = 'https://files.minecraftforge.net/maven' }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
 
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.0.9"
+    id "com.matthewprenger.cursegradle" version "1.1.0"
 }
-
-apply plugin: 'idea'
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'java'
 
 repositories {
-    mavenCentral()
     jcenter()
+    mavenCentral()
+    maven {
+        name 'LDTTeam - Modding'
+        url 'https://ldtteam.jfrog.io/ldtteam/modding/'
+    }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
-ext.configFile = file "build.properties"
-configFile.withReader {
-    def prop = new Properties()
-    prop.load(it)
-    ext.config = new ConfigSlurper().parse prop
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+sourceSets {
+    api {
+        java {
+            srcDir 'src/api/java'
+        }
+        resources {
+            srcDir 'src/api/resources'
+        }
+        compileClasspath += configurations.getByName("minecraft")
+    }
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+            srcDir 'src/main/generated/resources'
+        }
+        compileClasspath += sourceSets.main.compileClasspath
+        compileClasspath += sourceSets.api.output
+    }
 }
 
-group = "com.ldtteam.graphicsexpanded"
-version = config.minecraft_version + "-" + System.getenv()["Version"]
-archivesBaseName = "graphicsexpanded"
+dependencies {
+    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
+    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
+    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
+    minecraft 'net.minecraftforge:forge:1.15.2-31.1.16'
+    apiImplementation "com.intellij:annotations:+@jar"
+    implementation 'com.intellij:annotations:+@jar'
+}
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+version = '1.15.2' + System.getenv().containsKey("Version") ? System.getenv("Version") : 'null'
+group = 'com.ldtteam' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'graphicsexpanded'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
 
 minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
-    runDir = "run"
-	
-	mappings = "${config.mappings}"
-	
-    replace "@VERSION@", project.version
-    replaceIn "util/constant/Constants.java"
+    mappings channel: 'snapshot', version: '20200225-1.15.1'
+
+    runs {
+        client {
+            workingDirectory project.file('runClient')
+
+            // Recommended logging data for a userdev environment
+            // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                graphicsexpanded {
+                    source sourceSets.main
+                    source sourceSets.api
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('runServer')
+
+            // Recommended logging data for a userdev environment
+            // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                graphicsexpanded {
+                    source sourceSets.main
+                    source sourceSets.api
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('runClient')
+
+            // Recommended logging data for a userdev environment
+            // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', 'graphicsexpanded', '--all', '--output', file('src/main/generated/resources'), '--input', file('src/main/resources')
+
+            mods {
+                graphicsexpanded {
+                    source sourceSets.main
+                    source sourceSets.api
+                }
+            }
+        }
+    }
 }
 
-processResources {
-
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version': project.version, 'mcversion': project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+task apiJar(type: Jar) {
+    from sourceSets.api.output
+    classifier 'api'
 }
 
-// In this section you declare the dependencies for your production and test code
-dependencies {
-	testCompile 'junit:junit:4.11'
-    testCompile "org.mockito:mockito-core:1.+"
-    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.6.5'
-    testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
-    testCompile group: 'org.powermock', name: 'powermock-module-junit4-rule-agent', version: '1.6.5'
-
-    testCompile 'org.assertj:assertj-core:3.9.0'
-
-    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
-
-    compile 'com.intellij:annotations:+@jar'
+javadoc {
+    source += sourceSets.api.allSource
 }
 
 idea {
     module {
         inheritOutputDirs = true
+    }
+}
+
+// Example for how to get properties into the manifest for reading by the runtime..
+jar {
+    from sourceSets.api.output
+    from sourceSets.main.output
+
+    manifest {
+        attributes([
+                "Specification-Title": "graphicsexpanded",
+                "Specification-Vendor": "ldtteam",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${project.version}",
+                "Implementation-Vendor" :"ldtteam",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+// Example configuration to allow publishing using the maven-publish task
+// we define a custom artifact that is sourced from the reobfJar output task
+// and then declare that to be published
+// Note you'll need to add a repository here
+def reobfFile = file("$buildDir/reobfJar/output.jar")
+def reobfArtifact = artifacts.add('default', reobfFile) {
+    type 'jar'
+    builtBy 'reobfJar'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact reobfArtifact
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+task setupDecompWorkspace {
+    afterEvaluate {
+        println "Setup"
+    }
+}
+
+task setupCIWorkspace {
+    afterEvaluate {
+        println "Setup"
     }
 }
 
@@ -91,10 +205,12 @@ curseforge {
 
         project {
             id = '299247'
-
+            addGameVersion '1.15.2'
             changelog = file('build/changelog.md')
             changelogType = 'markdown'
             releaseType = System.getenv().CURSERELEASETYPE
+
+            addArtifact apiJar
         }
     }
     else
@@ -115,7 +231,7 @@ task("createChangelog") {
         def changes = changesXML.change
         println("createChangelog: Identified " + changes.size() + " changes to be written into the changelog.")
 
-        out << "# Animatrix Changelog \n"
+        out << "# GraphicsExpanded Changelog \n"
         out << "## Version: _" + version + "_ \n"
 
         if (changes.size() > 0) {

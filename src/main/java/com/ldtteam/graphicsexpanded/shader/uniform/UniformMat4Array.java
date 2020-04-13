@@ -1,6 +1,7 @@
 package com.ldtteam.graphicsexpanded.shader.uniform;
 
-import org.lwjgl.util.vector.Matrix4f;
+
+import net.minecraft.client.renderer.Matrix4f;
 
 public class UniformMat4Array extends Uniform{
 	

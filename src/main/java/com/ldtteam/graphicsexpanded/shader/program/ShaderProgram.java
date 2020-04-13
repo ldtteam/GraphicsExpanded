@@ -1,22 +1,20 @@
 package com.ldtteam.graphicsexpanded.shader.program;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.stream.Collectors;
-
 import com.ldtteam.graphicsexpanded.shader.ShaderManager;
 import com.ldtteam.graphicsexpanded.shader.uniform.Uniform;
 import com.ldtteam.graphicsexpanded.util.log.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
-@SideOnly(Side.CLIENT)
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
+
+@OnlyIn(Dist.CLIENT)
 public class ShaderProgram {
 
 	private int programID;
@@ -100,13 +98,15 @@ public class ShaderProgram {
 
     private static String readFileAsString(final ResourceLocation filename) throws IOException
     {
-        final InputStream in = Minecraft.getMinecraft().getResourceManager().getResource(filename).getInputStream();
-
-        if(in == null)
+        try (InputStream in = Minecraft.getInstance().getResourceManager().getResource(filename).getInputStream()) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                return reader.lines().collect(Collectors.joining("\n"));
+            }
+        }
+        catch (FileNotFoundException ex)
+        {
+            Log.getLogger().error("Failed to find shader file: " + filename, ex);
             return "";
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
-            return reader.lines().collect(Collectors.joining("\n"));
         }
     }
 }
