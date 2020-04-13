@@ -1,6 +1,6 @@
 package com.ldtteam.graphicsexpanded.shader.uniform;
 
-import net.minecraft.client.renderer.Vector3f;
+import com.ldtteam.graphicsexpanded.util.math.Vector3f;
 import org.lwjgl.opengl.GL20;
 
 public class UniformVec3 extends Uniform {

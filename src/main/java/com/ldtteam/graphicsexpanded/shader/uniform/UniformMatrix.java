@@ -1,6 +1,6 @@
 package com.ldtteam.graphicsexpanded.shader.uniform;
 
-import net.minecraft.client.renderer.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
@@ -15,7 +15,7 @@ public class UniformMatrix extends Uniform{
 	}
 	
 	public void loadMatrix(final Matrix4f matrix){
-		matrix.write(matrixBuffer);
+		matrix.store(matrixBuffer);
 		matrixBuffer.flip();
 		GL20.glUniformMatrix4fv(super.getLocation(), false, matrixBuffer);
 	}
