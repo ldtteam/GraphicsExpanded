@@ -43,7 +43,7 @@ import java.nio.FloatBuffer;
  * $Id$
  */
 
-public class Vector4f extends Vector implements Serializable, ReadableVector4f, WritableVector4f {
+public class Vector4f extends Vector<Vector4f> implements Serializable, ReadableVector4f<Vector4f>, WritableVector4f {
 
 	private static final long serialVersionUID = 1L;
 
@@ -170,7 +170,7 @@ public class Vector4f extends Vector implements Serializable, ReadableVector4f, 
 	 * Negate a vector
 	 * @return this
 	 */
-	public Vector negate() {
+	public Vector4f negate() {
 		x = -x;
 		y = -y;
 		z = -z;
@@ -239,7 +239,7 @@ public class Vector4f extends Vector implements Serializable, ReadableVector4f, 
 	/* (non-Javadoc)
 	 * @see org.lwjgl.vector.Vector#load(FloatBuffer)
 	 */
-	public Vector load(FloatBuffer buf) {
+	public Vector4f load(FloatBuffer buf) {
 		x = buf.get();
 		y = buf.get();
 		z = buf.get();
@@ -250,7 +250,7 @@ public class Vector4f extends Vector implements Serializable, ReadableVector4f, 
 	/* (non-Javadoc)
 	 * @see org.lwjgl.vector.Vector#scale(float)
 	 */
-	public Vector scale(float scale) {
+	public Vector4f scale(float scale) {
 		x *= scale;
 		y *= scale;
 		z *= scale;
@@ -261,7 +261,7 @@ public class Vector4f extends Vector implements Serializable, ReadableVector4f, 
 	/* (non-Javadoc)
 	 * @see org.lwjgl.vector.Vector#store(FloatBuffer)
 	 */
-	public Vector store(FloatBuffer buf) {
+	public Vector4f store(FloatBuffer buf) {
 
 		buf.put(x);
 		buf.put(y);

@@ -42,7 +42,7 @@ import java.nio.FloatBuffer;
  * @version $Revision$
  * $Id$
  */
-public abstract class Vector implements Serializable, ReadableVector {
+public abstract class Vector<V extends Vector<V>> implements Serializable, ReadableVector<V> {
 
 	/**
 	 * Constructor for Vector.
@@ -69,20 +69,20 @@ public abstract class Vector implements Serializable, ReadableVector {
 	 * @param buf The buffer to load it from, at the current position
 	 * @return this
 	 */
-	public abstract Vector load(FloatBuffer buf);
+	public abstract V load(FloatBuffer buf);
 
 	/**
 	 * Negate a vector
 	 * @return this
 	 */
-	public abstract Vector negate();
+	public abstract V negate();
 
 
 	/**
 	 * Normalise this vector
 	 * @return this
 	 */
-	public final Vector normalise() {
+	public final V normalise() {
 		float len = length();
 		if (len != 0.0f) {
 			float l = 1.0f / len;
@@ -97,7 +97,7 @@ public abstract class Vector implements Serializable, ReadableVector {
 	 * @param buf The buffer to store it in, at the current position
 	 * @return this
 	 */
-	public abstract Vector store(FloatBuffer buf);
+	public abstract V store(FloatBuffer buf);
 
 
 	/**
@@ -105,7 +105,7 @@ public abstract class Vector implements Serializable, ReadableVector {
 	 * @param scale The scale factor
 	 * @return this
 	 */
-	public abstract Vector scale(float scale);
+	public abstract V scale(float scale);
 
 
 

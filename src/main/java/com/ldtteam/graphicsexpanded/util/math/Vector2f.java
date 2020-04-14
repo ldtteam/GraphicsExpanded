@@ -43,7 +43,7 @@ import java.nio.FloatBuffer;
  * $Id$
  */
 
-public class Vector2f extends Vector implements Serializable, ReadableVector2f, WritableVector2f {
+public class Vector2f extends Vector<Vector2f> implements Serializable, ReadableVector2f<Vector2f>, WritableVector2f {
 
 	private static final long serialVersionUID = 1L;
 
@@ -112,7 +112,7 @@ public class Vector2f extends Vector implements Serializable, ReadableVector2f, 
 	 * Negate a vector
 	 * @return this
 	 */
-	public Vector negate() {
+	public Vector2f negate() {
 		x = -x;
 		y = -y;
 		return this;
@@ -215,7 +215,7 @@ public class Vector2f extends Vector implements Serializable, ReadableVector2f, 
 	 * @param buf The buffer to store it in, at the current position
 	 * @return this
 	 */
-	public Vector store(FloatBuffer buf) {
+	public Vector2f store(FloatBuffer buf) {
 		buf.put(x);
 		buf.put(y);
 		return this;
@@ -226,7 +226,7 @@ public class Vector2f extends Vector implements Serializable, ReadableVector2f, 
 	 * @param buf The buffer to load it from, at the current position
 	 * @return this
 	 */
-	public Vector load(FloatBuffer buf) {
+	public Vector2f load(FloatBuffer buf) {
 		x = buf.get();
 		y = buf.get();
 		return this;
@@ -235,7 +235,7 @@ public class Vector2f extends Vector implements Serializable, ReadableVector2f, 
 	/* (non-Javadoc)
 	 * @see org.lwjgl.vector.Vector#scale(float)
 	 */
-	public Vector scale(float scale) {
+	public Vector2f scale(float scale) {
 
 		x *= scale;
 		y *= scale;

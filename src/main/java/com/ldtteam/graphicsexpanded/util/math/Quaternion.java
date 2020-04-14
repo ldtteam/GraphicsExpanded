@@ -42,7 +42,7 @@ package com.ldtteam.graphicsexpanded.util.math;
 
 import java.nio.FloatBuffer;
 
-public class Quaternion extends Vector implements ReadableVector4f {
+public class Quaternion extends Vector<Quaternion> implements ReadableVector4f<Quaternion> {
 	private static final long serialVersionUID = 1L;
 
 	public float x, y, z, w;
@@ -231,14 +231,14 @@ public class Quaternion extends Vector implements ReadableVector4f {
 	/**
 	 * Calculate the conjugate of this quaternion
 	 */
-	public Vector negate() {
+	public Quaternion negate() {
 		return negate(this, this);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.ldtteam.graphicsexpanded.util.math.Vector#load(java.nio.FloatBuffer)
 	 */
-	public Vector load(FloatBuffer buf) {
+	public Quaternion load(FloatBuffer buf) {
 		x = buf.get();
 		y = buf.get();
 		z = buf.get();
@@ -251,7 +251,7 @@ public class Quaternion extends Vector implements ReadableVector4f {
 	 *
 	 * @see org.lwjgl.vector.Vector#scale(float)
 	 */
-	public Vector scale(float scale) {
+	public Quaternion scale(float scale) {
 		return scale(scale, this, this);
 	}
 
@@ -275,7 +275,7 @@ public class Quaternion extends Vector implements ReadableVector4f {
 	/* (non-Javadoc)
 	 * @see com.ldtteam.graphicsexpanded.util.math.ReadableVector#store(java.nio.FloatBuffer)
 	 */
-	public Vector store(FloatBuffer buf) {
+	public Quaternion store(FloatBuffer buf) {
 		buf.put(x);
 		buf.put(y);
 		buf.put(z);

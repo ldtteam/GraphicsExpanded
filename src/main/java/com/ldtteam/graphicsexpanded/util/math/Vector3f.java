@@ -47,7 +47,7 @@ import com.ldtteam.graphicsexpanded.util.math.WritableVector3f;
  * $Id$
  */
 
-public class Vector3f extends Vector implements Serializable, ReadableVector3f, WritableVector3f {
+public class Vector3f extends Vector<Vector3f> implements Serializable, ReadableVector3f<Vector3f>, WritableVector3f {
 
 	private static final long serialVersionUID = 1L;
 
@@ -189,7 +189,7 @@ public class Vector3f extends Vector implements Serializable, ReadableVector3f, 
 	 * Negate a vector
 	 * @return this
 	 */
-	public Vector negate() {
+	public Vector3f negate() {
 		x = -x;
 		y = -y;
 		z = -z;
@@ -256,7 +256,7 @@ public class Vector3f extends Vector implements Serializable, ReadableVector3f, 
 	/* (non-Javadoc)
 	 * @see org.lwjgl.vector.Vector#load(FloatBuffer)
 	 */
-	public Vector load(FloatBuffer buf) {
+	public Vector3f load(FloatBuffer buf) {
 		x = buf.get();
 		y = buf.get();
 		z = buf.get();
@@ -266,7 +266,7 @@ public class Vector3f extends Vector implements Serializable, ReadableVector3f, 
 	/* (non-Javadoc)
 	 * @see org.lwjgl.vector.Vector#scale(float)
 	 */
-	public Vector scale(float scale) {
+	public Vector3f scale(float scale) {
 
 		x *= scale;
 		y *= scale;
@@ -279,7 +279,7 @@ public class Vector3f extends Vector implements Serializable, ReadableVector3f, 
 	/* (non-Javadoc)
 	 * @see org.lwjgl.vector.Vector#store(FloatBuffer)
 	 */
-	public Vector store(FloatBuffer buf) {
+	public Vector3f store(FloatBuffer buf) {
 
 		buf.put(x);
 		buf.put(y);

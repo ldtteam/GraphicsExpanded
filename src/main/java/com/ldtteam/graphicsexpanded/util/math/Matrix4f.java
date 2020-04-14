@@ -39,7 +39,7 @@ import java.nio.FloatBuffer;
  *
  * @author foo
  */
-public class Matrix4f extends Matrix implements Serializable {
+public class Matrix4f extends Matrix<Matrix4f> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33;
@@ -73,7 +73,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * Set this matrix to be the identity matrix.
 	 * @return this
 	 */
-	public Matrix setIdentity() {
+	public Matrix4f setIdentity() {
 		return setIdentity(this);
 	}
 
@@ -107,7 +107,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * Set this matrix to 0.
 	 * @return this
 	 */
-	public Matrix setZero() {
+	public Matrix4f setZero() {
 		return setZero(this);
 	}
 
@@ -182,7 +182,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * @param buf A float buffer to read from
 	 * @return this
 	 */
-	public Matrix load(FloatBuffer buf) {
+	public Matrix4f load(FloatBuffer buf) {
 
 		m00 = buf.get();
 		m01 = buf.get();
@@ -211,7 +211,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * @param buf A float buffer to read from
 	 * @return this
 	 */
-	public Matrix loadTranspose(FloatBuffer buf) {
+	public Matrix4f loadTranspose(FloatBuffer buf) {
 
 		m00 = buf.get();
 		m10 = buf.get();
@@ -238,7 +238,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * major (openGL) order.
 	 * @param buf The buffer to store this matrix in
 	 */
-	public Matrix store(FloatBuffer buf) {
+	public Matrix4f store(FloatBuffer buf) {
 		buf.put(m00);
 		buf.put(m01);
 		buf.put(m02);
@@ -263,7 +263,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * major (maths) order.
 	 * @param buf The buffer to store this matrix in
 	 */
-	public Matrix storeTranspose(FloatBuffer buf) {
+	public Matrix4f storeTranspose(FloatBuffer buf) {
 		buf.put(m00);
 		buf.put(m10);
 		buf.put(m20);
@@ -288,7 +288,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * major (openGL) order.
 	 * @param buf The buffer to store this matrix in
 	 */
-	public Matrix store3f(FloatBuffer buf) {
+	public Matrix4f store3f(FloatBuffer buf) {
 		buf.put(m00);
 		buf.put(m01);
 		buf.put(m02);
@@ -440,7 +440,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * Transpose this matrix
 	 * @return this
 	 */
-	public Matrix transpose() {
+	public Matrix4f transpose() {
 		return transpose(this);
 	}
 
@@ -733,7 +733,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * Invert this matrix
 	 * @return this if successful, null otherwise
 	 */
-	public Matrix invert() {
+	public Matrix4f invert() {
 		return invert(this, this);
 	}
 
@@ -804,7 +804,7 @@ public class Matrix4f extends Matrix implements Serializable {
 	 * Negate this matrix
 	 * @return this
 	 */
-	public Matrix negate() {
+	public Matrix4f negate() {
 		return negate(this);
 	}
 

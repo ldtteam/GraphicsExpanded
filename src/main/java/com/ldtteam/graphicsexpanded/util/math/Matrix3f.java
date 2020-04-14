@@ -43,7 +43,7 @@ import java.nio.FloatBuffer;
  * $Id$
  */
 
-public class Matrix3f extends Matrix implements Serializable {
+public class Matrix3f extends Matrix<Matrix3f> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,7 +58,7 @@ public class Matrix3f extends Matrix implements Serializable {
 		m22;
 
 	/**
-	 * Constructor for Matrix3f. Matrix is initialised to the identity.
+	 * Constructor for Matrix3f. Matrix3f is initialised to the identity.
 	 */
 	public Matrix3f() {
 		super();
@@ -104,7 +104,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * @param buf A float buffer to read from
 	 * @return this
 	 */
-	public Matrix load(FloatBuffer buf) {
+	public Matrix3f load(FloatBuffer buf) {
 
 		m00 = buf.get();
 		m01 = buf.get();
@@ -126,7 +126,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * @param buf A float buffer to read from
 	 * @return this
 	 */
-	public Matrix loadTranspose(FloatBuffer buf) {
+	public Matrix3f loadTranspose(FloatBuffer buf) {
 
 		m00 = buf.get();
 		m10 = buf.get();
@@ -146,7 +146,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * major (openGL) order.
 	 * @param buf The buffer to store this matrix in
 	 */
-	public Matrix store(FloatBuffer buf) {
+	public Matrix3f store(FloatBuffer buf) {
 		buf.put(m00);
 		buf.put(m01);
 		buf.put(m02);
@@ -164,7 +164,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * major (maths) order.
 	 * @param buf The buffer to store this matrix in
 	 */
-	public Matrix storeTranspose(FloatBuffer buf) {
+	public Matrix3f storeTranspose(FloatBuffer buf) {
 		buf.put(m00);
 		buf.put(m10);
 		buf.put(m20);
@@ -295,7 +295,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * Transpose this matrix
 	 * @return this
 	 */
-	public Matrix transpose() {
+	public Matrix3f transpose() {
 		return transpose(this, this);
 	}
 
@@ -365,7 +365,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * Invert this matrix
 	 * @return this if successful, null otherwise
 	 */
-	public Matrix invert() {
+	public Matrix3f invert() {
 		return invert(this, this);
 	}
 
@@ -421,7 +421,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * Negate this matrix
 	 * @return this
 	 */
-	public Matrix negate() {
+	public Matrix3f negate() {
 		return negate(this);
 	}
 
@@ -460,7 +460,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * Set this matrix to be the identity matrix.
 	 * @return this
 	 */
-	public Matrix setIdentity() {
+	public Matrix3f setIdentity() {
 		return setIdentity(this);
 	}
 
@@ -486,7 +486,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * Set this matrix to 0.
 	 * @return this
 	 */
-	public Matrix setZero() {
+	public Matrix3f setZero() {
 		return setZero(this);
 	}
 

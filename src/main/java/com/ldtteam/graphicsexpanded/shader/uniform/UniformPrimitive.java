@@ -51,4 +51,11 @@ public class UniformPrimitive<T> extends Uniform<T> {
             );
         }
     }
+
+    public static class Sampler extends Int {
+
+        public Sampler(final String name) {
+            super(name);
+        }
+    }
 }

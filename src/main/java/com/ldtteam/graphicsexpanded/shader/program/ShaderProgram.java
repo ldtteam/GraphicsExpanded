@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @OnlyIn(Dist.CLIENT)
 public class ShaderProgram {
 
-	private int programID;
+	private final int programID;
 
 	public ShaderProgram(final ResourceLocation vertexFile, final ResourceLocation fragmentFile, final String... inVariables) throws IOException
     {
@@ -56,8 +56,8 @@ public class ShaderProgram {
         ShaderManager.getInstance().registerShader(this);
 	}
 	
-	protected void storeAllUniformLocations(final Uniform... uniforms){
-		for(final Uniform uniform : uniforms){
+	protected void storeAllUniformLocations(final Uniform<?>... uniforms){
+		for(final Uniform<?> uniform : uniforms){
 			uniform.storeUniformLocation(programID);
 		}
 		GL20.glValidateProgram(programID);

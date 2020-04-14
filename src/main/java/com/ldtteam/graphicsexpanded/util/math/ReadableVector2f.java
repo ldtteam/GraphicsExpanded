@@ -34,7 +34,7 @@ package com.ldtteam.graphicsexpanded.util.math;
 /**
  * @author foo
  */
-public interface ReadableVector2f extends ReadableVector {
+public interface ReadableVector2f<R extends ReadableVector2f<R>> extends ReadableVector<R> {
 	/**
 	 * @return x
 	 */

@@ -1,15 +1,12 @@
 package com.ldtteam.graphicsexpanded.shader.uniform;
 
-import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
-import com.ldtteam.graphicsexpanded.util.math.Vector2f;
-import com.ldtteam.graphicsexpanded.util.math.Vector3f;
-import com.ldtteam.graphicsexpanded.util.math.Vector4f;
+import com.ldtteam.graphicsexpanded.util.math.*;
 
 import java.util.function.Function;
 
 public class UniformArray<T, U extends Uniform<T>> extends Uniform<T[]> {
 
-    private U[] arrayUniforms;
+    private final U[] arrayUniforms;
 
     public UniformArray(final String name, final int size, final Function<Integer, U[]> arrayConstructor, final Function<String, U> constructor) {
         super(name);
@@ -32,46 +29,68 @@ public class UniformArray<T, U extends Uniform<T>> extends Uniform<T[]> {
         }
     }
 
-    public static class Mat4 extends UniformArray<Matrix4f, UniformMat4> {
+    public static class Mat2 extends UniformArray<Matrix2f, UniformMatrix.Mat2> {
+
+        public Mat2(final String name, final int size) {
+            super(name,
+                    size,
+                    UniformMatrix.Mat2[]::new,
+                    UniformMatrix.Mat2::new
+            );
+        }
+    }
+
+    public static class Mat3 extends UniformArray<Matrix3f, UniformMatrix.Mat3> {
+
+        public Mat3(final String name, final int size) {
+            super(name,
+                    size,
+                    UniformMatrix.Mat3[]::new,
+                    UniformMatrix.Mat3::new
+            );
+        }
+    }
+
+    public static class Mat4 extends UniformArray<Matrix4f, UniformMatrix.Mat4> {
 
         public Mat4(final String name, final int size) {
             super(name,
                     size,
-                    UniformMat4[]::new,
-                    UniformMat4::new
+                    UniformMatrix.Mat4[]::new,
+                    UniformMatrix.Mat4::new
             );
         }
     }
 
-    public static class Vec2 extends UniformArray<Vector2f, UniformVec2> {
+    public static class Vec2 extends UniformArray<Vector2f, UniformVector.Vec2> {
 
         public Vec2(final String name, final int size) {
             super(name,
                     size,
-                    UniformVec2[]::new,
-                    UniformVec2::new
+                    UniformVector.Vec2[]::new,
+                    UniformVector.Vec2::new
             );
         }
     }
 
-    public static class Vec3 extends UniformArray<Vector3f, UniformVec3> {
+    public static class Vec3 extends UniformArray<Vector3f, UniformVector.Vec3> {
 
         public Vec3(final String name, final int size) {
             super(name,
                     size,
-                    UniformVec3[]::new,
-                    UniformVec3::new
+                    UniformVector.Vec3[]::new,
+                    UniformVector.Vec3::new
             );
         }
     }
 
-    public static class Vec4 extends UniformArray<Vector4f, UniformVec4> {
+    public static class Vec4 extends UniformArray<Vector4f, UniformVector.Vec4> {
 
         public Vec4(final String name, final int size) {
             super(name,
                     size,
-                    UniformVec4[]::new,
-                    UniformVec4::new
+                    UniformVector.Vec4[]::new,
+                    UniformVector.Vec4::new
             );
         }
     }
@@ -98,7 +117,7 @@ public class UniformArray<T, U extends Uniform<T>> extends Uniform<T[]> {
         }
     }
 
-    public static class Float extends UniformArray<Float, UniformPrimitive.Float> {
+    public static class Float extends UniformArray<java.lang.Float, UniformPrimitive.Float> {
 
         public Float(final String name, final int size) {
             super(name,
@@ -108,5 +127,4 @@ public class UniformArray<T, U extends Uniform<T>> extends Uniform<T[]> {
             );
         }
     }
-
 }

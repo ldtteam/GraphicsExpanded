@@ -31,12 +31,10 @@
  */
 package com.ldtteam.graphicsexpanded.util.math;
 
-import java.nio.FloatBuffer;
-
 /**
  * @author foo
  */
-public interface ReadableVector {
+public interface ReadableVector<R extends ReadableVector<R>> extends WriteableToFloatBuffer<R> {
 	/**
 	 * @return the length of the vector
 	 */
@@ -45,10 +43,4 @@ public interface ReadableVector {
 	 * @return the length squared of the vector
 	 */
 	float lengthSquared();
-	/**
-	 * Store this vector in a FloatBuffer
-	 * @param buf The buffer to store it in, at the current position
-	 * @return this
-	 */
-	Vector store(FloatBuffer buf);
 }

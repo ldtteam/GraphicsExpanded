@@ -43,7 +43,7 @@ import java.nio.FloatBuffer;
  * $Id$
  */
 
-public class Matrix2f extends Matrix implements Serializable {
+public class Matrix2f extends Matrix<Matrix2f> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -97,7 +97,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * @param buf A float buffer to read from
 	 * @return this
 	 */
-	public Matrix load(FloatBuffer buf) {
+	public Matrix2f load(FloatBuffer buf) {
 
 		m00 = buf.get();
 		m01 = buf.get();
@@ -114,7 +114,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * @param buf A float buffer to read from
 	 * @return this
 	 */
-	public Matrix loadTranspose(FloatBuffer buf) {
+	public Matrix2f loadTranspose(FloatBuffer buf) {
 
 		m00 = buf.get();
 		m10 = buf.get();
@@ -129,7 +129,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * major (openGL) order.
 	 * @param buf The buffer to store this matrix in
 	 */
-	public Matrix store(FloatBuffer buf) {
+	public Matrix2f store(FloatBuffer buf) {
 		buf.put(m00);
 		buf.put(m01);
 		buf.put(m10);
@@ -142,7 +142,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * major (maths) order.
 	 * @param buf The buffer to store this matrix in
 	 */
-	public Matrix storeTranspose(FloatBuffer buf) {
+	public Matrix2f storeTranspose(FloatBuffer buf) {
 		buf.put(m00);
 		buf.put(m10);
 		buf.put(m01);
@@ -239,7 +239,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * Transpose this matrix
 	 * @return this
 	 */
-	public Matrix transpose() {
+	public Matrix2f transpose() {
 		return transpose(this);
 	}
 
@@ -275,7 +275,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * Invert this matrix
 	 * @return this if successful, null otherwise
 	 */
-	public Matrix invert() {
+	public Matrix2f invert() {
 		return invert(this, this);
 	}
 
@@ -323,7 +323,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * Negate this matrix
 	 * @return this
 	 */
-	public Matrix negate() {
+	public Matrix2f negate() {
 		return negate(this);
 	}
 
@@ -358,7 +358,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * Set this matrix to be the identity matrix.
 	 * @return this
 	 */
-	public Matrix setIdentity() {
+	public Matrix2f setIdentity() {
 		return setIdentity(this);
 	}
 
@@ -379,7 +379,7 @@ public class Matrix2f extends Matrix implements Serializable {
 	 * Set this matrix to 0.
 	 * @return this
 	 */
-	public Matrix setZero() {
+	public Matrix2f setZero() {
 		return setZero(this);
 	}
 

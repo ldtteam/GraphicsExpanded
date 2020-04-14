@@ -43,7 +43,7 @@ import java.nio.FloatBuffer;
  * @version $Revision$
  * $Id$
  */
-public abstract class Matrix implements Serializable {
+public abstract class Matrix<M extends Matrix<M>> implements Serializable, WriteableToFloatBuffer<M> {
 
 	/**
 	 * Constructor for Matrix.
@@ -56,14 +56,14 @@ public abstract class Matrix implements Serializable {
 	 * Set this matrix to be the identity matrix.
 	 * @return this
 	 */
-	public abstract Matrix setIdentity();
+	public abstract M setIdentity();
 
 
 	/**
 	 * Invert this matrix
 	 * @return this
 	 */
-	public abstract Matrix invert();
+	public abstract M invert();
 
 
 	/**
@@ -73,7 +73,7 @@ public abstract class Matrix implements Serializable {
 	 * @param buf A float buffer to read from
 	 * @return this
 	 */
-	public abstract Matrix load(FloatBuffer buf);
+	public abstract M load(FloatBuffer buf);
 
 
 	/**
@@ -83,24 +83,14 @@ public abstract class Matrix implements Serializable {
 	 * @param buf A float buffer to read from
 	 * @return this
 	 */
-	public abstract Matrix loadTranspose(FloatBuffer buf);
+	public abstract M loadTranspose(FloatBuffer buf);
 
 
 	/**
 	 * Negate this matrix
 	 * @return this
 	 */
-	public abstract Matrix negate();
-
-
-	/**
-	 * Store this matrix in a float buffer. The matrix is stored in column
-	 * major (openGL) order.
-	 * @param buf The buffer to store this matrix in
-	 * @return this
-	 */
-	public abstract Matrix store(FloatBuffer buf);
-
+	public abstract M negate();
 
 	/**
 	 * Store this matrix in a float buffer. The matrix is stored in row
@@ -108,21 +98,21 @@ public abstract class Matrix implements Serializable {
 	 * @param buf The buffer to store this matrix in
 	 * @return this
 	 */
-	public abstract Matrix storeTranspose(FloatBuffer buf);
+	public abstract M storeTranspose(FloatBuffer buf);
 
 
 	/**
 	 * Transpose this matrix
 	 * @return this
 	 */
-	public abstract Matrix transpose();
+	public abstract M transpose();
 
 
 	/**
 	 * Set this matrix to 0.
 	 * @return this
 	 */
-	public abstract Matrix setZero();
+	public abstract M setZero();
 
 
 	/**
