@@ -5,6 +5,7 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 class FloatBufferWritingUniform<T extends WriteableToFloatBuffer<T>> extends Uniform<T> {
     protected final FloatBuffer dataBuffer;
@@ -17,7 +18,12 @@ class FloatBufferWritingUniform<T extends WriteableToFloatBuffer<T>> extends Uni
     }
 
     public void load(final T toLoad) {
-        toLoad.store(dataBuffer);
+        this.loadWithBuffer(toLoad::store);
+    }
+
+    protected void loadWithBuffer(Consumer<FloatBuffer> bufferWriter)
+    {
+        bufferWriter.accept(dataBuffer);
         dataBuffer.flip();
         this.openGlUploader.accept(getLocation(), dataBuffer);
     }

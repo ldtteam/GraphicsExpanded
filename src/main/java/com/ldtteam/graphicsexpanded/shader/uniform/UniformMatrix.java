@@ -41,6 +41,10 @@ public class UniformMatrix<M extends Matrix<M>> extends FloatBufferWritingUnifor
 					4,
 					(location, buffer) -> GL20.glUniformMatrix4fv(location, false, buffer));
 		}
+
+		public void load(final net.minecraft.client.renderer.Matrix4f toLoad) {
+			super.loadWithBuffer(toLoad::write);
+		}
 	}
 
 }
