@@ -2,21 +2,14 @@ package com.ldtteam.graphicsexpanded.shader.uniform;
 
 import org.lwjgl.opengl.GL20;
 
-public class UniformSampler extends Uniform {
-
-	private int currentValue;
-	private boolean used = false;
-
+/**
+ * Simple wrapper class around {@link UniformPrimitive.Int} to indicate that the uniform
+ * value is actually a Texture Sampler in the Shader.
+ *
+ * It is preferred to use location binding available in OpenGL 3.3 or Higher however!
+ */
+public class UniformSampler extends UniformPrimitive.Int {
 	public UniformSampler(final String name) {
 		super(name);
 	}
-
-	public void loadTexUnit(final int texUnit) {
-		if (!used || currentValue != texUnit) {
-			GL20.glUniform1i(super.getLocation(), texUnit);
-			used = true;
-			currentValue = texUnit;
-		}
-	}
-
 }

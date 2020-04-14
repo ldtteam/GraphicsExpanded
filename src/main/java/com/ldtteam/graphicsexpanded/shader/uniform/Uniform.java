@@ -3,7 +3,7 @@ package com.ldtteam.graphicsexpanded.shader.uniform;
 import com.ldtteam.graphicsexpanded.util.log.Log;
 import org.lwjgl.opengl.GL20;
 
-public abstract class Uniform {
+public abstract class Uniform<T> {
 	
 	private static final int NOT_FOUND = -1;
 	
@@ -25,4 +25,5 @@ public abstract class Uniform {
 		return location;
 	}
 
+	public abstract void load(final T toLoad);
 }

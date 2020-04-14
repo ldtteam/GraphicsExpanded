@@ -3,7 +3,7 @@ package com.ldtteam.graphicsexpanded.shader.uniform;
 import com.ldtteam.graphicsexpanded.util.math.Vector3f;
 import org.lwjgl.opengl.GL20;
 
-public class UniformVec3 extends Uniform {
+public class UniformVec3 extends Uniform<Vector3f> {
 	private float currentX;
 	private float currentY;
 	private float currentZ;
@@ -13,7 +13,7 @@ public class UniformVec3 extends Uniform {
 		super(name);
 	}
 
-	public void loadVec3(final Vector3f vector) {
+	public void load(final Vector3f vector) {
 		loadVec3(vector.getX(), vector.getY(), vector.getZ());
 	}
 

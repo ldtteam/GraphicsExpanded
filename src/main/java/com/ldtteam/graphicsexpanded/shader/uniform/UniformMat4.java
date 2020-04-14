@@ -6,15 +6,15 @@ import org.lwjgl.opengl.GL20;
 
 import java.nio.FloatBuffer;
 
-public class UniformMatrix extends Uniform{
+public class UniformMat4 extends Uniform<Matrix4f> {
 	
 	private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 
-	public UniformMatrix(final String name) {
+	public UniformMat4(final String name) {
 		super(name);
 	}
 	
-	public void loadMatrix(final Matrix4f matrix){
+	public void load(final Matrix4f matrix){
 		matrix.store(matrixBuffer);
 		matrixBuffer.flip();
 		GL20.glUniformMatrix4fv(super.getLocation(), false, matrixBuffer);

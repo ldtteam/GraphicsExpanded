@@ -3,13 +3,13 @@ package com.ldtteam.graphicsexpanded.shader.uniform;
 import com.ldtteam.graphicsexpanded.util.math.Vector4f;
 import org.lwjgl.opengl.GL20;
 
-public class UniformVec4 extends Uniform {
+public class UniformVec4 extends Uniform<Vector4f> {
 
 	public UniformVec4(final String name) {
 		super(name);
 	}
 
-	public void loadVec4(final Vector4f vector) {
+	public void load(final Vector4f vector) {
 		loadVec4(vector.getX(), vector.getY(), vector.getZ(), vector.getW());
 	}
 

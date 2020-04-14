@@ -3,7 +3,7 @@ package com.ldtteam.graphicsexpanded.shader.uniform;
 import com.ldtteam.graphicsexpanded.util.math.Vector2f;
 import org.lwjgl.opengl.GL20;
 
-public class UniformVec2 extends Uniform {
+public class UniformVec2 extends Uniform<Vector2f> {
 
 	private float currentX;
 	private float currentY;
@@ -13,7 +13,7 @@ public class UniformVec2 extends Uniform {
 		super(name);
 	}
 	
-	public void loadVec2(final Vector2f vector) {
+	public void load(final Vector2f vector) {
 		loadVec2(vector.x, vector.y);
 	}
 
@@ -25,5 +25,4 @@ public class UniformVec2 extends Uniform {
 			GL20.glUniform2f(super.getLocation(), x, y);
 		}
 	}
-
 }
