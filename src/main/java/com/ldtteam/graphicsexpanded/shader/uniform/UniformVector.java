@@ -1,9 +1,6 @@
 package com.ldtteam.graphicsexpanded.shader.uniform;
 
-import com.ldtteam.graphicsexpanded.util.math.Vector;
-import com.ldtteam.graphicsexpanded.util.math.Vector2f;
-import com.ldtteam.graphicsexpanded.util.math.Vector3f;
-import com.ldtteam.graphicsexpanded.util.math.Vector4f;
+import com.ldtteam.graphicsexpanded.util.math.*;
 import org.lwjgl.opengl.GL20;
 
 import java.nio.FloatBuffer;
@@ -22,6 +19,10 @@ public class UniformVector<V extends Vector<V>> extends FloatBufferWritingUnifor
 					2,
 					GL20::glUniform2fv);
 		}
+
+		public void load(final float x, final float y) {
+			this.load(new Vector2f(x, y));
+		}
 	}
 
 	public static class Vec3 extends UniformVector<Vector3f> {
@@ -31,6 +32,14 @@ public class UniformVector<V extends Vector<V>> extends FloatBufferWritingUnifor
 					3,
 					GL20::glUniform3fv);
 		}
+
+		public void load(final net.minecraft.client.renderer.Vector3f vector3f) {
+			this.load(vector3f.getX(), vector3f.getY(), vector3f.getZ());
+		}
+
+		public void load(final float x, final float y, final float z) {
+			this.load(new Vector3f(x, y, z));
+		}
 	}
 
 	public static class Vec4 extends UniformVector<Vector4f> {
@@ -39,6 +48,22 @@ public class UniformVector<V extends Vector<V>> extends FloatBufferWritingUnifor
 			super(name,
 					4,
 					GL20::glUniform4fv);
+		}
+
+		public void load(final Quaternion quaternion) {
+			this.loadWithBuffer(quaternion::store);
+		}
+
+		public void load(final net.minecraft.client.renderer.Quaternion quaternion) {
+			this.load(quaternion.getX(), quaternion.getY(), quaternion.getZ(), quaternion.getW());
+		}
+
+		public void load(final net.minecraft.client.renderer.Vector4f vector4f) {
+			this.load(vector4f.getX(), vector4f.getY(), vector4f.getZ(), vector4f.getW());
+		}
+
+		public void load(final float x, final float y, final float z, final float w) {
+			this.load(new Vector4f(x, y, z, w));
 		}
 	}
 }
