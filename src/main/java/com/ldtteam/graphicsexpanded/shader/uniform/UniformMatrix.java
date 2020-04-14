@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 public class UniformMatrix<M extends Matrix<M>> extends FloatBufferWritingUniform<M> {
 
 	public UniformMatrix(final String name, final int dimension, final BiConsumer<Integer, FloatBuffer> openGlUploader) {
-		super(name, dimension^2 , openGlUploader);
+		super(name, dimension*dimension , openGlUploader);
 	}
 
 	public static class Mat2 extends UniformMatrix<Matrix2f> {
