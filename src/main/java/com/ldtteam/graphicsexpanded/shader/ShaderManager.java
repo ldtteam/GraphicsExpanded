@@ -1,15 +1,16 @@
 package com.ldtteam.graphicsexpanded.shader;
 
-import com.ldtteam.graphicsexpanded.shader.program.ShaderProgram;
 import com.ldtteam.graphicsexpanded.util.log.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL20;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ public final class ShaderManager
         return ourInstance;
     }
 
-    private final ConcurrentMap<WeakReference<ShaderProgram>, Integer> shaders = new ConcurrentHashMap();
+    private final ConcurrentMap<WeakReference<ShaderProgram>, Runnable> shaders = new ConcurrentHashMap();
 
     private ShaderManager()
     {
@@ -36,10 +37,9 @@ public final class ShaderManager
         Minecraft.getInstance().execute(new ClearingRunnable(this));
     }
 
-    public void registerShader(final ShaderProgram shaderProgram)
-    {
+    public void registerShader(final ShaderProgram shaderProgram) throws IOException {
         Log.getLogger().info("Created Shader: " + shaderProgram.getProgramID());
-        shaders.put(new WeakReference<>(shaderProgram), shaderProgram.getProgramID());
+        shaders.put(new WeakReference<>(shaderProgram), shaderProgram.init());
     }
 
     /**
@@ -55,13 +55,13 @@ public final class ShaderManager
         @Override
         public void run()
         {
-            final List<Map.Entry<WeakReference<ShaderProgram>, Integer>> removedShaders =
+            final List<Map.Entry<WeakReference<ShaderProgram>, Runnable>> removedShaders =
               managerToHandle.shaders.entrySet().stream().filter(entry -> entry.getKey().get() == null).collect(Collectors.toList());
 
             removedShaders.forEach(weakReferenceIntegerEntry -> {
                 Log.getLogger().info("Deleting Shader: " + weakReferenceIntegerEntry.getValue());
                 managerToHandle.shaders.remove(weakReferenceIntegerEntry.getKey());
-                GL20.glDeleteProgram(weakReferenceIntegerEntry.getValue());
+                weakReferenceIntegerEntry.getValue().run();
             });
 
             //Reschedule clearing task.

@@ -1,6 +1,5 @@
-package com.ldtteam.graphicsexpanded.shader.program;
+package com.ldtteam.graphicsexpanded.shader;
 
-import com.ldtteam.graphicsexpanded.shader.ShaderManager;
 import com.ldtteam.graphicsexpanded.shader.uniform.Uniform;
 import com.ldtteam.graphicsexpanded.util.log.Log;
 import net.minecraft.client.Minecraft;
@@ -12,50 +11,77 @@ import org.lwjgl.opengl.GL20;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 @OnlyIn(Dist.CLIENT)
 public class ShaderProgram {
 
-	private final int programID;
+	private int programID = -1;
 
-	public ShaderProgram(final ResourceLocation vertexFile, final ResourceLocation fragmentFile, final String... inVariables) throws IOException
-    {
+	private final ResourceLocation vertexFile;
+	private final ResourceLocation fragmentFile;
+	private final List<String> variableNames;
+
+	public ShaderProgram(final ResourceLocation vertexFile, final ResourceLocation fragmentFile, final String... variables) throws IOException {
+	    this(vertexFile, fragmentFile, Arrays.asList(variables));
+    }
+
+    public ShaderProgram(final ResourceLocation vertexFile, final ResourceLocation fragmentFile, final List<String> variableNames) throws IOException {
+        this.vertexFile = vertexFile;
+        this.fragmentFile = fragmentFile;
+        this.variableNames = variableNames;
+
+        ShaderManager.getInstance().registerShader(this);
+    }
+
+    Runnable init() throws IOException {
+	    if (programID != -1)
+	        throw new IllegalStateException("Failed to initialize the shader. It is already initialized.");
+
         programID = GL20.glCreateProgram();
 
-		int vertexShaderID = -1;
+        final int vertexShaderID;
         if (vertexFile != null)
         {
             vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
+            if (vertexShaderID == 0)
+            {
+                throw new IllegalStateException("Failed to initialize the shader. The vertex shader did not compile.");
+            }
+
             GL20.glAttachShader(programID, vertexShaderID);
         }
+        else
+        {
+            vertexShaderID = -1;
+        }
 
-		int fragmentShaderID = -1;
-		if (fragmentFile != null)
+        final int fragmentShaderID;
+        if (fragmentFile != null)
         {
             fragmentShaderID = loadShader(fragmentFile, GL20.GL_FRAGMENT_SHADER);
+            if (fragmentShaderID != 0)
+            {
+                throw new IllegalStateException("Failed to initialize the shader. The fragment shader did not compile.");
+            }
+
             GL20.glAttachShader(programID, fragmentShaderID);
         }
-
-		bindAttributes(inVariables);
-
-		GL20.glLinkProgram(programID);
-
-		if (vertexShaderID != -1)
+        else
         {
-            GL20.glDetachShader(programID, vertexShaderID);
-            GL20.glDeleteShader(vertexShaderID);
+            fragmentShaderID = -1;
         }
 
-		if (fragmentShaderID != -1)
-        {
-            GL20.glDetachShader(programID, fragmentShaderID);
-            GL20.glDeleteShader(fragmentShaderID);
-        }
+        bindAttributes(variableNames);
 
-        ShaderManager.getInstance().registerShader(this);
-	}
-	
+        GL20.glLinkProgram(programID);
+
+        return new ShaderDeletionHandler(vertexShaderID, fragmentShaderID, programID);
+    }
+
 	protected void storeAllUniformLocations(final Uniform<?>... uniforms){
 		for(final Uniform<?> uniform : uniforms){
 			uniform.storeUniformLocation(programID);
@@ -76,16 +102,19 @@ public class ShaderProgram {
         return programID;
     }
 
-    private void bindAttributes(final String[] inVariables){
-		for(int i=0;i<inVariables.length;i++){
-			GL20.glBindAttribLocation(programID, i, inVariables[i]);
-		}
+    private void bindAttributes(final List<String> inVariables){
+        for (int i = 0; i < inVariables.size(); i++) {
+            GL20.glBindAttribLocation(programID, i, inVariables.get(i));
+        }
 	}
 	
 	private int loadShader(final ResourceLocation file, final int type) throws IOException
     {
 		final String shaderSource = readFileAsString(file);
 		final int shaderID = GL20.glCreateShader(type);
+		if (shaderID == 0)
+		    return shaderID;
+
 		GL20.glShaderSource(shaderID, shaderSource);
 		GL20.glCompileShader(shaderID);
 		if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
