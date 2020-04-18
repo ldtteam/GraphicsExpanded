@@ -26,7 +26,7 @@ public final class ShaderManager
         return ourInstance;
     }
 
-    private final ConcurrentMap<WeakReference<ShaderProgram>, Runnable> shaders = new ConcurrentHashMap();
+    private final ConcurrentMap<WeakReference<ShaderProgram>, ShaderDeletionHandler> shaders = new ConcurrentHashMap();
 
     private ShaderManager()
     {
@@ -38,8 +38,8 @@ public final class ShaderManager
     }
 
     public void registerShader(final ShaderProgram shaderProgram) throws IOException {
-        Log.getLogger().info("Created Shader: " + shaderProgram.getProgramID());
         shaders.put(new WeakReference<>(shaderProgram), shaderProgram.init());
+        Log.getLogger().info("Created Shader: " + shaderProgram.getProgramID());
     }
 
     /**
@@ -55,11 +55,11 @@ public final class ShaderManager
         @Override
         public void run()
         {
-            final List<Map.Entry<WeakReference<ShaderProgram>, Runnable>> removedShaders =
+            final List<Map.Entry<WeakReference<ShaderProgram>, ShaderDeletionHandler>> removedShaders =
               managerToHandle.shaders.entrySet().stream().filter(entry -> entry.getKey().get() == null).collect(Collectors.toList());
 
             removedShaders.forEach(weakReferenceIntegerEntry -> {
-                Log.getLogger().info("Deleting Shader: " + weakReferenceIntegerEntry.getValue());
+                Log.getLogger().info("Deleting Shader: " + weakReferenceIntegerEntry.getValue().getProgramId());
                 managerToHandle.shaders.remove(weakReferenceIntegerEntry.getKey());
                 weakReferenceIntegerEntry.getValue().run();
             });

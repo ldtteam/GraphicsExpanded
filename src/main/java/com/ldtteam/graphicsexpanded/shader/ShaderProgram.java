@@ -37,7 +37,7 @@ public class ShaderProgram {
         ShaderManager.getInstance().registerShader(this);
     }
 
-    Runnable init() throws IOException {
+    ShaderDeletionHandler init() throws IOException {
 	    if (programID != -1)
 	        throw new IllegalStateException("Failed to initialize the shader. It is already initialized.");
 
@@ -63,7 +63,7 @@ public class ShaderProgram {
         if (fragmentFile != null)
         {
             fragmentShaderID = loadShader(fragmentFile, GL20.GL_FRAGMENT_SHADER);
-            if (fragmentShaderID != 0)
+            if (fragmentShaderID == 0)
             {
                 throw new IllegalStateException("Failed to initialize the shader. The fragment shader did not compile.");
             }

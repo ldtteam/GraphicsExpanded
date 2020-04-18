@@ -31,4 +31,8 @@ final class ShaderDeletionHandler implements Runnable {
 
         GL20.glDeleteProgram(programId);
     }
+
+    public int getProgramId() {
+        return programId;
+    }
 }
