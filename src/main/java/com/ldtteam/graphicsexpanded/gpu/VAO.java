@@ -87,6 +87,32 @@ public final class VAO
     }
 
     /**
+     * Enables the given set of attributes on the GPU for this VAO.
+     * Also binds the VAO as the active VAO on the GPU.
+     *
+     * @param attributes The attributes to enable.
+     */
+    public void bind(final int... attributes){
+        bind();
+        for (final int i : attributes) {
+            GL20.glEnableVertexAttribArray(i);
+        }
+    }
+
+    /**
+     * Disables the given set of attributes on the GPU for this VAO.
+     * Also unbinds the VAO as the active VAO on the GPU.
+     *
+     * @param attributes The attributes to disable.
+     */
+    public void unbind(final int... attributes){
+        for (final int i : attributes) {
+            GL20.glDisableVertexAttribArray(i);
+        }
+        unbind();
+    }
+
+    /**
      * Makes the current VAO the active VAO in the GPU Memory.
      */
     public void bind() {
