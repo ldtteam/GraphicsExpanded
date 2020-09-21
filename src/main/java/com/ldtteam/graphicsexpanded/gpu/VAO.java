@@ -14,11 +14,11 @@ import java.util.Collection;
  * Represents a OpenGL version 3.0 memory array on the GPU.
  */
 @OnlyIn(Dist.CLIENT)
-public class VAO
+public final class VAO
 {
     private static final int             BYTES_PER_FLOAT = 4;
     private static final int             BYTES_PER_INT   = 4;
-    public final         int             id;
+    private final         int             id;
     private              Collection<VBO> dataVBOs        = new ArrayList<>();
     private              VBO             indexVbo;
     private              int             indexCount;
@@ -38,32 +38,6 @@ public class VAO
      */
     public int getIndexCount(){
         return indexCount;
-    }
-
-    /**
-     * Enables the given set of attributes on the GPU for this VAO.
-     * Also binds the VAO as the active VAO on the GPU.
-     *
-     * @param attributes The attributes to enable.
-     */
-    public void bind(final int... attributes){
-        bind();
-        for (final int i : attributes) {
-            GL20.glEnableVertexAttribArray(i);
-        }
-    }
-
-    /**
-     * Disables the given set of attributes on the GPU for this VAO.
-     * Also unbinds the VAO as the active VAO on the GPU.
-     *
-     * @param attributes The attributes to disable.
-     */
-    public void unbind(final int... attributes){
-        for (final int i : attributes) {
-            GL20.glDisableVertexAttribArray(i);
-        }
-        unbind();
     }
 
     /**
@@ -115,14 +89,14 @@ public class VAO
     /**
      * Makes the current VAO the active VAO in the GPU Memory.
      */
-    private void bind() {
+    public void bind() {
         GL30.glBindVertexArray(id);
     }
 
     /**
      * Unbinds the current VAO as the active VAO in the GPU Memory.
      */
-    private void unbind() {
+    public void unbind() {
         GL30.glBindVertexArray(0);
     }
 
