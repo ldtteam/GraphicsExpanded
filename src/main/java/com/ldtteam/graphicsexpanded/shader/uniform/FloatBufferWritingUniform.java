@@ -23,9 +23,9 @@ class FloatBufferWritingUniform<T extends WriteableToFloatBuffer<T>> extends Uni
 
     protected void loadWithBuffer(Consumer<FloatBuffer> bufferWriter)
     {
+        dataBuffer.position(0);
         bufferWriter.accept(dataBuffer);
-        dataBuffer.flip();
-        this.openGlUploader.accept(getLocation(), dataBuffer);
         dataBuffer.clear();
+        this.openGlUploader.accept(getLocation(), dataBuffer);
     }
 }
