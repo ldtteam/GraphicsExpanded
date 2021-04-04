@@ -1,6 +1,7 @@
 modLoader="javafml" #mandatory
 loaderVersion="[31,)" #mandatory (28 is current forge version)
 issueTrackerURL="https://github.com/ldtteam/Structurize/issues/new" #optional
+license="MIT"
 [[mods]] #mandatory
 modId="graphicsexpanded" #mandatory
 version="${file.jarVersion}" #mandatory
