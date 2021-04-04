@@ -4,7 +4,6 @@ import com.ldtteam.graphicsexpanded.util.math.Matrix;
 import com.ldtteam.graphicsexpanded.util.math.Matrix2f;
 import com.ldtteam.graphicsexpanded.util.math.Matrix3f;
 import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
 import java.nio.FloatBuffer;
@@ -42,7 +41,7 @@ public class UniformMatrix<M extends Matrix<M>> extends FloatBufferWritingUnifor
 					(location, buffer) -> GL20.glUniformMatrix4fv(location, false, buffer));
 		}
 
-		public void load(final net.minecraft.client.renderer.Matrix4f toLoad) {
+		public void load(final net.minecraft.util.math.vector.Matrix4f toLoad) {
 			super.loadWithBuffer(toLoad::write);
 		}
 	}

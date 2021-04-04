@@ -14,18 +14,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused") //API Class
 @OnlyIn(Dist.CLIENT)
 public final class GPUMemoryManager
 {
-    private static GPUMemoryManager ourInstance = new GPUMemoryManager();
+    private static final GPUMemoryManager ourInstance = new GPUMemoryManager();
 
     public static GPUMemoryManager getInstance()
     {
         return ourInstance;
     }
 
-    private final ConcurrentMap<WeakReference<VBO>, Integer> VBOs = new ConcurrentHashMap();
-    private final ConcurrentMap<WeakReference<VAO>, Integer> VAOs = new ConcurrentHashMap();
+    private final ConcurrentMap<WeakReference<VBO>, Integer> VBOs = new ConcurrentHashMap<>();
+    private final ConcurrentMap<WeakReference<VAO>, Integer> VAOs = new ConcurrentHashMap<>();
 
     private GPUMemoryManager()
     {
@@ -109,9 +110,11 @@ public final class GPUMemoryManager
                 }
                 catch (final Exception ex)
                 {
-                    Log.getLogger().error("Failed to reregister the GPUManager. GPU memory leaks will occur.", ex);
+                    Log.getLogger().error("Failed to re-register the GPUManager. GPU memory leaks will occur.", ex);
                 }
             });
+            rescheduleThread.setDaemon(true);
+            rescheduleThread.setName("GE GPU Memory WatchDog.");
             rescheduleThread.start();
         }
 

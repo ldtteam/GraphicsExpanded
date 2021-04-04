@@ -4,13 +4,11 @@ import com.ldtteam.graphicsexpanded.util.log.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL20;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -19,14 +17,14 @@ import java.util.stream.Collectors;
 public final class ShaderManager
 {
 
-    private static ShaderManager ourInstance = new ShaderManager();
+    private static final ShaderManager ourInstance = new ShaderManager();
 
     public static ShaderManager getInstance()
     {
         return ourInstance;
     }
 
-    private final ConcurrentMap<WeakReference<ShaderProgram>, ShaderDeletionHandler> shaders = new ConcurrentHashMap();
+    private final ConcurrentMap<WeakReference<ShaderProgram>, ShaderDeletionHandler> shaders = new ConcurrentHashMap<>();
 
     private ShaderManager()
     {
@@ -81,9 +79,11 @@ public final class ShaderManager
                 }
                 catch (final Exception ex)
                 {
-                    Log.getLogger().error("Failed to reregister the ShaderManager. GPU memory leaks will occur.", ex);
+                    Log.getLogger().error("Failed to re-register the ShaderManager. GPU memory leaks will occur.", ex);
                 }
             });
+            rescheduleThread.setDaemon(true);
+            rescheduleThread.setName("GE Shader WatchDog.");
             rescheduleThread.start();
         }
 

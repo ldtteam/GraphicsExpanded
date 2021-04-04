@@ -17,14 +17,14 @@ public class ModGraphicsExpanded
 {
 
     public ModGraphicsExpanded() {
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(this::onClientInit));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(this::onClientInit));
     }
 
     public void onClientInit(final FMLClientSetupEvent setupEvent) {
         Log.setLogger(LogManager.getLogger());
         Log.getLogger().info("Starting GPU Memory manager.");
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> GPUMemoryManager.getInstance().initialize());
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> GPUMemoryManager.getInstance().initialize());
         Log.getLogger().info("Starting Shader manager.");
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> ShaderManager.getInstance().initialize());
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ShaderManager.getInstance().initialize());
     }
 }

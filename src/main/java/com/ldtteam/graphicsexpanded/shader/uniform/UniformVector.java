@@ -33,7 +33,7 @@ public class UniformVector<V extends Vector<V>> extends FloatBufferWritingUnifor
 					GL20::glUniform3fv);
 		}
 
-		public void load(final net.minecraft.client.renderer.Vector3f vector3f) {
+		public void load(final net.minecraft.util.math.vector.Vector3f vector3f) {
 			this.load(vector3f.getX(), vector3f.getY(), vector3f.getZ());
 		}
 
@@ -54,11 +54,11 @@ public class UniformVector<V extends Vector<V>> extends FloatBufferWritingUnifor
 			this.loadWithBuffer(quaternion::store);
 		}
 
-		public void load(final net.minecraft.client.renderer.Quaternion quaternion) {
+		public void load(final net.minecraft.util.math.vector.Quaternion quaternion) {
 			this.load(quaternion.getX(), quaternion.getY(), quaternion.getZ(), quaternion.getW());
 		}
 
-		public void load(final net.minecraft.client.renderer.Vector4f vector4f) {
+		public void load(final net.minecraft.util.math.vector.Vector4f vector4f) {
 			this.load(vector4f.getX(), vector4f.getY(), vector4f.getZ(), vector4f.getW());
 		}
 
