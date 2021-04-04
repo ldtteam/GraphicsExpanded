@@ -79,7 +79,12 @@ public class ShaderProgram {
 
         GL20.glLinkProgram(programID);
 
-        return new ShaderDeletionHandler(vertexShaderID, fragmentShaderID, programID);
+        GL20.glDetachShader(programID, vertexShaderID);
+        GL20.glDeleteShader(vertexShaderID);
+        GL20.glDetachShader(programID, fragmentShaderID);
+        GL20.glDeleteShader(fragmentShaderID);
+
+        return new ShaderDeletionHandler(programID);
     }
 
 	protected void storeAllUniformLocations(final Uniform<?>... uniforms){
